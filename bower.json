@@ -1,0 +1,25 @@
+{
+  "name": "DevExtreme",
+  "homepage": "https://github.com/gizmore/gdo6-dev-extreme",
+  "authors": [
+    "gizmore@wechall.net"
+  ],
+  "description": "DevExtreme components for gdo6",
+  "main": "Module_DevExtreme.php",
+  "keywords": [
+    "gdo6",
+    "dev-extreme"
+  ],
+  "license": "DevExtreme License Required",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "devextreme": "^19.1.13"
+  }
+}
