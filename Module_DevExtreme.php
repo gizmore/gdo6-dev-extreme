@@ -74,11 +74,11 @@ final class Module_DevExtreme extends GDO_Module
     
     public function onIncludeScripts()
     {
-        $this->addBowerJavascript('devextreme/js/dx.all.debug.js');
-        $this->addBowerJavascript('devextreme/js/localization/dx.messages.'.$this->getExtremeLocale().'.js');
-        $this->addBowerJavascript('devextreme-aspnet-data/js/dx.aspnet.data.js');
-        $this->addBowerCSS('devextreme/css/dx.common.css');
-        $this->addBowerCSS('devextreme/css/dx.'.$this->cfgExtremeTheme().'.css');
+        $this->addBowerJavascript('devextreme/dist/js/dx.all.debug.js');
+        $this->addBowerJavascript('devextreme/dist/js/localization/dx.messages.'.$this->getExtremeLocale().'.js');
+//         $this->addBowerJavascript('devextreme-aspnet-data/js/dx.aspnet.data.js');
+        $this->addBowerCSS('devextreme/dist/css/dx.common.css');
+        $this->addBowerCSS('devextreme/dist/css/dx.'.$this->cfgExtremeTheme().'.css');
     }
     
 }
