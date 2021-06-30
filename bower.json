@@ -20,6 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "devextreme": "^19.1.13"
+    "devextreme": "^19.1.13",
+    "devextreme-aspnet-data": "^2.8.5"
   }
 }
