@@ -14,7 +14,10 @@ use GDO\Moment\Module_Moment;
 /** @var $field \GDO\Table\GDT_Table **/
 /** @var $form GDT_Form **/
 ?>
-<div <?=$field->htmlID()?>></div>
+<div class="gdt-table">
+  <h3><?=$field->renderTitle()?></h3>
+  <div <?=$field->htmlID()?>></div>
+</div>
 <?php
 $mm = Module_Moment::instance();
 $href = $_SERVER['REQUEST_URI'] . '&fmt=json';
@@ -25,6 +28,8 @@ $pk = null;
 $loadError = t('err_load_data');
 $editable = $field->editable ? 'true' : 'false';
 $paginated = $field->pagemenu ? 'true' : 'false';
+$filtered = $field->filtered ? 'true' : 'false';
+$sorted = $field->sorted ? 'true' : 'false';
 $h = $field->headers->name;
 foreach ($field->getHeaderFields() as $gdt)
 {
@@ -141,12 +146,12 @@ $(function() {
     $("#{$id}").dxDataGrid({
         dataSource: source_{$id},
         remoteOperations: {
-            paging: true,
-            filtering: true,
-            sorting: true,
-            grouping: true,
-            summary: true,
-            groupPaging: true
+            paging: {$paginated},
+            filtering: {$filtered},
+            sorting: {$sorted},
+            grouping: false,
+            summary: false,
+            groupPaging: false
         },
         filterRow: {
             visible: true
