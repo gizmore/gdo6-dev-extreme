@@ -6,6 +6,8 @@ use GDO\Util\Javascript;
 use GDO\Date\GDT_Date;
 use GDO\Date\GDT_DateTime;
 use GDO\DB\GDT_Int;
+use GDO\Date\GDT_Timestamp;
+use GDO\Moment\Module_Moment;
 /**
  * This template does quite a lot ugly js generation for a nice dxgrid experience.
  */
@@ -14,6 +16,7 @@ use GDO\DB\GDT_Int;
 ?>
 <div <?=$field->htmlID()?>></div>
 <?php
+$mm = Module_Moment::instance();
 $href = $_SERVER['REQUEST_URI'] . '&fmt=json';
 $id = $field->id();
 $ipp = $field->pagemenu ? Module_Table::instance()->cfgItemsPerPage() : $field->getResult()->numRows();
@@ -29,21 +32,29 @@ foreach ($field->getHeaderFields() as $gdt)
     {
         continue;
     }
+    $gdt->gdtTable($field->gdtTable);
     $pk = $pk ? $pk : $gdt->name;
-    if ($gdt instanceof GDT_DateTime) $type = 'datetime';
-    elseif ($gdt instanceof GDT_Date) $type = 'date';
-    elseif ($gdt instanceof GDT_Int) $type = 'number';
-    else $type = 'string';
+    $format = '';
+    if ($gdt instanceof GDT_DateTime) { $type = 'datetime'; $format = t("df_{$gdt->format}"); }
+    elseif ($gdt instanceof GDT_Date) { $type = 'date'; $format = t("df_{$gdt->format}"); }
+    elseif ($gdt instanceof GDT_Timestamp) { $type = 'datetime'; $format = t("df_{$gdt->format}"); }
+    elseif ($gdt instanceof GDT_Int) { $type = 'number'; }
+    else { $type = 'string'; }
+    $format = $mm->convertFormat($format);
     $columns[] = '{
 dataField: "'.$gdt->name.'",
 caption: "'.$gdt->displayLabel().'",
 dataType: "'.$type.'",
+momentFormat: "'.$format.'",
 allowEditing: '.($gdt->editable?'true':'false').',
 allowGrouping: '.($gdt->groupable?'true':'false').',
 cellTemplate: function (container, options) {
   let v = options.value;
   if (typeof v === "string" || v instanceof String) {
     $("<span>"+options.value+"</span>").appendTo(container);
+  }
+  else if (v instanceof Date) {
+    container.append(window.moment(v).format(options.column.momentFormat));
   }
   else if (v !== null && v !== undefined) {
     container.append(v);
@@ -69,16 +80,32 @@ let store_{$id} = new DevExpress.data.CustomStore({
                     args.{$h}.page = loadOptions[i] / {$ipp} + 1;
                 }
                 if (i === 'filter') {
-                    args.{$h}.f = {};
-                    let f = loadOptions[i];
-                    if (f.filterValue) {
-                        args.{$h}.f[f[0]] = f[2];
+                    let search = $('#{$id} .dx-datagrid-search-panel input').val();
+                    if (search) {
+                        args.{$h}.search = search;
                     }
-                    for (j in loadOptions[i]) {
-                        f = loadOptions[i][j];
+                    else {
+                        let f = loadOptions[i];
+                        args.{$h}['f'] = {};
                         if (f.filterValue) {
-                            args.{$h}.f[f[0]] = f[2];
+                            f[1] = f[1].replaceAll(/[^!<>=]/g, '');
+                            let ff = f[1] + f[2];
+                            args.{$h}['f'][f[0]] = ff;
                         }
+                        for (j in loadOptions[i]) {
+                            f = loadOptions[i][j];
+                            if (f.filterValue) {
+                                f[1] = f[1].replaceAll(/[^!<>=]/g, '');
+                                let ff = f[1] + f[2];
+                                args.{$h}['f'][f[0]] = ff;
+                            }
+                        }
+                    }
+                }
+                if (i === 'sort') {
+                    for (j in loadOptions[i]) {
+                      let f = loadOptions[i][j];
+                      args.{$h}.o[f[0]] = f[2];
                     }
                 }
             }
@@ -136,6 +163,9 @@ $(function() {
             allowAdding: {$editable},
             allowDeleting: {$editable}
         },
+//         onEditorPreparing: function(options) {
+// //             options.setValue(4,5);
+//         },
         pager: {
             visible: $paginated,
             showPageSizeSelector: true,
@@ -148,6 +178,9 @@ $(function() {
         paging: {
             enabled: $paginated,
             pageSize: $ipp
+        },
+        sorting: {
+            mode: 'multiple'
         },
         searchPanel: {
             visible: true,
