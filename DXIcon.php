@@ -66,7 +66,6 @@ final class DXIcon
 //         'pause' => '⏸',
 //         'phone' => '📞',
 //         'plus' => '+',
-//         'plus_one' => '+1',
 //         'quote' => '↶',
 //         'remove' => '✕',
 //         'reply' => '☞',
