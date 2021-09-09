@@ -201,4 +201,4 @@ $(function() {
     });
 });
 EOS;
-Javascript::addJavascriptInline($script_html);
+Javascript::addJavascriptPostInline($script_html);
