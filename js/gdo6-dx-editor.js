@@ -4,7 +4,7 @@
 //Read more at https://js.devexpress.com/Documentation/Guide/Widgets/Common/Advanced/3rd-Party_Frameworks_Integration_API/#Create_and_Configure_a_Widget.
 $(function(){
 
-	$('.gdt_message div.wysiwyg').each(function(){
+	$('.gdt-message div.wysiwyg').each(function(){
 		let textarea = $(this).find('textarea');
 		new DevExpress.ui.dxHtmlEditor(this, {
 			"height": '240px',
