@@ -18,7 +18,7 @@ use GDO\Moment\Module_Moment;
 </div>
 <?php
 $mm = Module_Moment::instance();
-$href = $_SERVER['REQUEST_URI'] . '&fmt=json';
+$href = $_SERVER['REQUEST_URI'] . '&_fmt=json';
 $id = $field->id();
 $ipp = $field->pagemenu ? Module_Table::instance()->cfgItemsPerPage() : $field->getResult()->numRows();
 $columns = [];
