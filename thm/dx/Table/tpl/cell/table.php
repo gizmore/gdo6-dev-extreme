@@ -1,6 +1,9 @@
-<?php use GDO\Form\GDT_Form;
+<?php
+namespace GDO\DevExtreme\thm\dx\Table\tpl\cell;
+
+use GDO\Form\GDT_Form;
 use GDO\Table\Module_Table;
-use GDO\Util\Javascript;
+use GDO\Javascript\Javascript;
 use GDO\Date\GDT_Date;
 use GDO\Date\GDT_DateTime;
 use GDO\DB\GDT_Int;
@@ -116,9 +119,10 @@ let store_{$id} = new DevExpress.data.CustomStore({
 
         console.log(args);
         $.ajax({
+            type: "post",
             url: "{$href}",
             dataType: "json",
-            data: args,
+            data: { _dxGridLoadOptions: loadOptions },
             success: function(result) {
                 deferred.resolve(result.json.{$name}.data, {
                     totalCount: result.json.{$name}.total
