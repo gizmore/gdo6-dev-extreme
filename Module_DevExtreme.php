@@ -15,11 +15,12 @@ use GDO\UI\GDT_Message;
  * - optional dxIcons (todo and not recommended as only a few icons)
  * 
  * @author busch
- * @version 6.10.4
+ * @version 6.10.6
  */
 final class Module_DevExtreme extends GDO_Module
 {
     public $module_priority = 25;
+    public $module_license = "DevExtreme";
     
     public function getTheme() { return 'dx'; }
     
