@@ -205,4 +205,4 @@ $(function() {
     });
 });
 EOS;
-Javascript::addJavascriptPostInline($script_html);
+Javascript::addJSPostInline($script_html);

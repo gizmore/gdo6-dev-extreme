@@ -114,20 +114,20 @@ final class Module_DevExtreme extends GDO_Module
         $this->addBowerCSS('devextreme/dist/css/dx.'.$this->cfgExtremeTheme().'.css');
 
         # gdo
-        $this->addJavascript('js/gdo6-dx.js');
+        $this->addJS('js/gdo6-dx.js');
         $this->addCSS('css/gdo6-dx.css');
         if ($this->cfgEditor())
         {
             # quill
-            $this->addBowerJavascript('devextreme-quill/dist/dx-quill.min.js');
+            $this->addBowerJS('devextreme-quill/dist/dx-quill.min.js');
             $this->addBowerCSS('devextreme-quill/dist/dx-quill.core.css');
             # gdo
-            $this->addJavascript('js/gdo6-dx-editor.js');
+            $this->addJS('js/gdo6-dx-editor.js');
         }
 
         # now dx
-        $this->addBowerJavascript('devextreme/dist/js/dx.all.debug.js');
-        $this->addBowerJavascript('devextreme/dist/js/localization/dx.messages.'.$this->getExtremeLocale().'.js');
+        $this->addBowerJS('devextreme/dist/js/dx.all.debug.js');
+        $this->addBowerJS('devextreme/dist/js/localization/dx.messages.'.$this->getExtremeLocale().'.js');
     }
     
 }
